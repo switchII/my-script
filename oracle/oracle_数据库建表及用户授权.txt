@@ -1,0 +1,44 @@
+-----------------------创建表空间
+
+CREATE SMALLFILE TABLESPACE gl 
+DATAFILE 'F:\Oracle\data\gl.ora'
+SIZE 100M 
+AUTOEXTEND ON NEXT 10M 
+MAXSIZE UNLIMITED LOGGING
+EXTENT MANAGEMENT LOCAL SEGMENT SPACE MANAGEMENT AUTO DEFAULT NOCOMPRESS
+ 
+DROP TABLESPACE gl INCLUDING CONTENTS AND DATAFILES CASCADE CONSTRAINTS;
+
+---------------------创建一个用户
+
+create user gl
+     identified by gl
+     default tablespace gl   ----------------这个DEMO与上面的表空间对应
+     quota 10m on gl
+     temporary tablespace temp ;
+     
+create user glspsb identified by glspsb default tablespace gl;
+
+drop user gl CASCADE; 
+
+------------------------给新创建用户权限，要不进不去或者不能操作
+grant create session,create table to glspsb ; 
+grant resource,connect to glspsb ;
+
+------------------------其他权限
+grant connect to glspsb ;
+grant dba to glspsb ;
+-- Grant/Revoke system privileges 
+grant alter session to glspsb ;
+grant create any directory to glspsb ;
+grant create any procedure to glspsb ;
+grant create any sequence to glspsb ;
+grant create session to glspsb ;
+grant create synonym to glspsb ;
+grant create table to glspsb ;
+grant create type to glspsb ;
+grant create view to glspsb ;
+grant select any dictionary to glspsb ;
+grant select any table to glspsb ;
+grant unlimited tablespace to glspsb ;
+ 
